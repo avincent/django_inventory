@@ -1,19 +1,16 @@
 services:
   - type: web
-    name: django-inventory       # Your app name on Render
+    name: django-inventory
     env: python
     plan: free
 
-    # Commands to build and prepare your app
     buildCommand: |
       pip install -r requirements.txt
       python manage.py migrate
       python manage.py collectstatic --noinput
 
-    # Command to start your app
     startCommand: python manage.py runserver 0.0.0.0:$PORT
 
-    # Environment variables
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.8
