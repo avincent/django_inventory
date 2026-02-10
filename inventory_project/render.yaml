@@ -3,17 +3,32 @@ services:
     name: django-inventory
     env: python
     plan: free
-    # This line tells Render where manage.py and requirements.txt are
+    # Ensures Render looks inside your project folder for manage.py
     rootDir: inventory_project
+
+      # Add 'ls -R' to the start so we can see your folders in the logs
     buildCommand: |
+      ls -R
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
       python manage.py migrate
+
+    # Standard ASGI start command for Uvicorn
     startCommand: uvicorn inventory_project.asgi:application --host 0.0.0.0 --port $PORT
+
+    # (Optional) Helps Render verify the app started successfully
+    healthCheckPath: /
+
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.8
+
       - key: DJANGO_SECRET_KEY
         generateValue: true
+
       - key: DJANGO_SETTINGS_MODULE
         value: inventory_project.settings
+
+      # Recommended: Force Django to use the Render-provided port
+      - key: PORT
+        value: 10000
