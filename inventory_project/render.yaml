@@ -3,6 +3,8 @@ services:
     name: django-inventory
     env: python
     plan: free
+    # This line tells Render where manage.py and requirements.txt are
+    rootDir: inventory_project
     buildCommand: |
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
