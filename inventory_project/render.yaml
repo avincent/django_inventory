@@ -9,7 +9,8 @@ services:
       python manage.py migrate
       python manage.py collectstatic --noinput
 
-    startCommand: python manage.py runserver 0.0.0.0:$PORT
+    # Updated to gunicorn for production stability
+    startCommand: gunicorn inventory_project.wsgi:application
 
     envVars:
       - key: PYTHON_VERSION
