@@ -10,7 +10,8 @@ services:
       python manage.py collectstatic --noinput
 
     # Updated to gunicorn for production stability
-    startCommand: gunicorn inventory_project.wsgi:application
+    # Change from gunicorn to uvicorn
+    startCommand: uvicorn inventory_project.asgi:application --host 0.0.0.0 --port $PORT
 
     envVars:
       - key: PYTHON_VERSION
